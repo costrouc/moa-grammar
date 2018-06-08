@@ -1,0 +1,31 @@
+import pytest
+
+from moa.lexer import lexer
+
+
+@pytest.mark.parametrize("expresion,result", [
+    ("psi", ['PSI']), ('take', ['TAKE']), ('drop', ['DROP']),
+    ('cat', ['CAT']), ('pdrop', ['PDROP']), ('ptake', ['PTAKE']),
+    ('omega', ['OMEGA']), ('iota', ['IOTA']), ('dim', ['DIM']),
+    ('tau', ['TAU']), ('shp', ['SHP']), ('rav', ['RAV']),
+    ('(', ['LPAREN']), (')', ['RPAREN']),
+    ('{', ['LBRACKET']), ('}', ['RBRACKET']),
+    ('<', ['LANGLEBRACKET']), ('>', ['RANGLEBRACKET']),
+    ('^', ['CARROT']), (';', ['ENDSTATEMENT']),
+    ('+', ['PLUS']), ('-', ['MINUS']), ('*', ['TIMES']), ('/', ['DIVIDE']),
+    ('=', ['EQUAL']),
+    ('+red', ['PLUSRED']), ('-red', ['MINUSRED']),
+    ('*red', ['TIMESRED']), ('/red', ['DIVIDERED']),
+    ('asdf_asAVA', ['IDENTIFIER']),
+    ("1234", ['INTEGER']), ('01234', ['INTEGER'])
+#    ("1234.1234", ['FLOAT']),
+])
+def test_valid_single_token(expresion, result):
+    lexer.input(expresion)
+    tokens = []
+    while True:
+        token = lexer.token()
+        if not token:
+            break
+        tokens.append(token.type)
+    assert tokens == result

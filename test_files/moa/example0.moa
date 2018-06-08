@@ -1,0 +1,6 @@
+test(array A^2 <5 4>, array C^2 <4 6>)
+{
+  const array B^2 <2 4>=<1 2 3 4 1 2 3 4>;
+
+  A=B cat (<1 2> drop C)
+}
