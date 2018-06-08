@@ -17,8 +17,8 @@ from moa.lexer import lexer
     ('+red', ['PLUSRED']), ('-red', ['MINUSRED']),
     ('*red', ['TIMESRED']), ('/red', ['DIVIDERED']),
     ('asdf_asAVA', ['IDENTIFIER']),
-    ("1234", ['INTEGER']), ('01234', ['INTEGER'])
-#    ("1234.1234", ['FLOAT']),
+    ("1234", ['INTEGER']), ('01234', ['INTEGER']), ('-12398', ['INTEGER']),
+    ("1234.1234", ['FLOAT']), ('-12.123', ['FLOAT']),
 ])
 def test_valid_single_token(expresion, result):
     lexer.input(expresion)
