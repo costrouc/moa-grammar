@@ -3,12 +3,16 @@ import ply.yacc as yacc
 from .lexer import tokens
 from . import primitives
 
+
 def p_main(p):
     '''main : vector
             | array
             | constant_array
+            | binary_operation
+            | unary_operation
     '''
     p[0] = p[1]
+
 
 def p_number_list(p):
     '''number_list : number_list INTEGER
@@ -20,9 +24,11 @@ def p_number_list(p):
     else:
         p[0] = list()
 
+
 def p_vector(p):
     'vector : LANGLEBRACKET number_list RANGLEBRACKET'
     p[0] = primitives.NDArray(shape=(len(p[2]),), data=p[2])
+
 
 def p_array(p):
     '''array : ARRAY IDENTIFIER CARROT INTEGER vector'''
@@ -32,6 +38,7 @@ def p_array(p):
         shape=tuple(p[5].data), data=None,
         constant=False, identifier=p[2])
 
+
 def p_constant_array(p):
     '''constant_array : CONST ARRAY IDENTIFIER CARROT INTEGER vector'''
     if len(p[6].data) != p[5]:
@@ -40,33 +47,49 @@ def p_constant_array(p):
         shape=tuple(p[6].data), data=None,
         constant=True, identifier=p[3])
 
-# def p_binary_operation(p):
-#     """binary_operation : expression PLUS   expression
-#                         | expression MINUS  expression
-#                         | expression TIMES  expression
-#                         | expression DIVIDE expression
-#                         | expression PSI    expression
-#                         | expression TAKE   expression
-#                         | expression DROP   expression
-#                         | expression CAT    expression
-#                         | expression PDROP  expression
-#                         | expression PTAKE  expression
-#                         | expression OMEGA  expression
-#     """
-#     p[0] = primitives.BinaryOperation(operation=p[1], left=p[0], right=p[2])
 
-# def p_unary_operation(p):
-#     """unary_operation : IOTA       expression
-#                        | DIM        expression
-#                        | TAU        expression
-#                        | SHP        expression
-#                        | RAV        expression
-#                        | PLUSRED    expression
-#                        | MINUSRED   expression
-#                        | TIMESRED   expression
-#                        | DIVIDERED  expression
-#     """
-#     p[0] = primitives.UnaryOperation(operation=p[1], right=p[2])
+def p_undefined_array(p):
+    '''reference_array : IDENTIFIER'''
+    p[0] = primitives.NDArray(
+        shape=None, data=None,
+        constant=False, identifier=p[1])
+
+
+def p_binary_operation(p):
+    """binary_operation : term PLUS   term
+                        | term MINUS  term
+                        | term TIMES  term
+                        | term DIVIDE term
+                        | term PSI    term
+                        | term TAKE   term
+                        | term DROP   term
+                        | term CAT    term
+                        | term PDROP  term
+                        | term PTAKE  term
+                        | term OMEGA  term
+    """
+    p[0] = primitives.BinaryOperation(operator=p[2].upper(), left=p[1], right=p[3])
+
+
+def p_unary_operation(p):
+    """unary_operation : IOTA       term
+                       | DIM        term
+                       | TAU        term
+                       | SHP        term
+                       | RAV        term
+                       | PLUSRED    term
+                       | MINUSRED   term
+                       | TIMESRED   term
+                       | DIVIDERED  term
+    """
+    p[0] = primitives.UnaryOperation(operator=p[1].upper(), right=p[2])
+
+
+def p_term(p):
+    """term : reference_array
+            | vector
+    """
+    p[0] = p[1]
 
 # Error rule for syntax errors
 def p_error(p):

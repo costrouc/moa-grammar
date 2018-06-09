@@ -1,4 +1,4 @@
 from .lexer import lexer
 from .yaccer import parser
 
-from .primitives import NDArray
+from .primitives import NDArray, UnaryOperation, BinaryOperation
