@@ -1,6 +1,8 @@
 import ply.lex as lex
 
 reserved = {
+    'const': 'CONST',
+    'array': 'ARRAY',
     # binary expresions
     'psi': 'PSI',
     'take': 'TAKE',
@@ -18,6 +20,7 @@ reserved = {
 }
 
 tokens = (
+    'CONST', 'ARRAY',
     'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'EQUAL',
     'PSI', 'TAKE', 'DROP', 'CAT', 'PDROP', 'PTAKE', 'OMEGA',
     'PLUSRED', 'MINUSRED', 'TIMESRED', 'DIVIDERED',
@@ -25,8 +28,7 @@ tokens = (
     'LANGLEBRACKET', 'RANGLEBRACKET',
     'LBRACKET', 'RBRACKET',
     'LPAREN', 'RPAREN',
-    'CARROT',
-    'ENDSTATEMENT',
+    'CARROT', 'COMMA', 'ENDSTATEMENT',
     'INTEGER', 'FLOAT', 'IDENTIFIER'
 )
 
@@ -40,6 +42,7 @@ t_RBRACKET = r'}'
 t_LANGLEBRACKET = r'<'
 t_RANGLEBRACKET = r'>'
 t_CARROT = r'\^'
+t_COMMA = r','
 t_ENDSTATEMENT = r';'
 
 ## binary operators
@@ -54,8 +57,6 @@ t_PLUSRED   = r'\+red'
 t_MINUSRED  = r'\-red'
 t_TIMESRED  = r'\*red'
 t_DIVIDERED = r'/red'
-
-
 
 ## symbols
 def t_FLOAT(t):

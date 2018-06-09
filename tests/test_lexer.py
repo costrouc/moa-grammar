@@ -4,6 +4,7 @@ from moa import lexer
 
 
 @pytest.mark.parametrize("expression,result", [
+    ('array', ['ARRAY']), ('const', ['CONST']),
     ("psi", ['PSI']), ('take', ['TAKE']), ('drop', ['DROP']),
     ('cat', ['CAT']), ('pdrop', ['PDROP']), ('ptake', ['PTAKE']),
     ('omega', ['OMEGA']), ('iota', ['IOTA']), ('dim', ['DIM']),
@@ -11,7 +12,7 @@ from moa import lexer
     ('(', ['LPAREN']), (')', ['RPAREN']),
     ('{', ['LBRACKET']), ('}', ['RBRACKET']),
     ('<', ['LANGLEBRACKET']), ('>', ['RANGLEBRACKET']),
-    ('^', ['CARROT']), (';', ['ENDSTATEMENT']),
+    ('^', ['CARROT']), (';', ['ENDSTATEMENT']), (',', ['COMMA']),
     ('+', ['PLUS']), ('-', ['MINUS']), ('*', ['TIMES']), ('/', ['DIVIDE']),
     ('=', ['EQUAL']),
     ('+red', ['PLUSRED']), ('-red', ['MINUSRED']),
@@ -43,7 +44,8 @@ def test_invalid_single_token(expression, error):
     ("AMY^3", ['IDENTIFIER', 'CARROT', 'INTEGER']),
     ('AMts =<2  >   ', ['IDENTIFIER', 'EQUAL', 'LANGLEBRACKET', 'INTEGER', 'RANGLEBRACKET']),
     ('  <    1 8 >;', ['LANGLEBRACKET', 'INTEGER', 'INTEGER', 'RANGLEBRACKET', 'ENDSTATEMENT']),
-    ('Y cat   omega < 1 1>', ['IDENTIFIER', 'CAT', 'OMEGA', 'LANGLEBRACKET', 'INTEGER', 'INTEGER', 'RANGLEBRACKET'])
+    ('Y cat   omega < 1 1>', ['IDENTIFIER', 'CAT', 'OMEGA', 'LANGLEBRACKET', 'INTEGER', 'INTEGER', 'RANGLEBRACKET']),
+    ('const array B^2 <1 2>', ['CONST', 'ARRAY', 'IDENTIFIER', 'CARROT', 'INTEGER', 'LANGLEBRACKET', 'INTEGER', 'INTEGER', 'RANGLEBRACKET'])
 ])
 def test_valid_multiple_token(expression, result):
     lexer.input(expression)

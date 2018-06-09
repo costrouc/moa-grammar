@@ -4,18 +4,24 @@
 
 
 class NDArray:
-    def __init__(self, shape, data, constant=False):
-        self._constant = constant
-        self._shape = shape
-        self._data = data
-
-    @property
-    def shape(self):
-        return self._shape
-
-    @property
-    def data(self):
-        return self._data
+    def __init__(self, shape, data, constant=False, identifier=None):
+        self.shape = shape
+        self.data = data
+        self.constant = constant
+        self.identifier = identifier
 
     def gamma(self, index):
         raise NotImplementedError()
+
+
+class UnaryOperation:
+    def __init__(self, operator, right):
+        self.operator = operator
+        self.right = right
+
+
+class BinaryOperation:
+    def __init__(self, operator, left, right):
+        self.operator = operator
+        self.left = left
+        self.right = right
