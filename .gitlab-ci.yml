@@ -1,0 +1,10 @@
+stages:
+  - test
+
+test:
+  image: python:3.6
+  stage: test
+  script:
+# why bother with a setup.py for now
+    - pip install pytest ply
+    - pytest
