@@ -29,3 +29,18 @@ def test_valid_single_token(expresion, result):
             break
         tokens.append(token.type)
     assert tokens == result
+
+
+@pytest.mark.parametrize("expresion,error", [
+    ('_asdf', "'_' no valid token can be formed from '_asdf'"),
+])
+def test_invalid_single_token(expresion, error):
+    lexer.input(expresion)
+    with pytest.raises(ValueError) as excinfo:
+        tokens = []
+        while True:
+            token = lexer.token()
+            if not token:
+                break
+            tokens.append(token.type)
+    assert error in str(excinfo.value)

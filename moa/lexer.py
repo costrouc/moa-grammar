@@ -83,7 +83,6 @@ t_ignore = ' \t'
 
 # Error handling rule
 def t_error(t):
-    print(f"Illegal character '{t.value[0]}'")
-    t.lexer.skip(1)
+    raise ValueError(f"Illegal character '{t.value[0]}' no valid token can be formed from '{t.value}' on line {t.lexer.lineno}")
 
 lexer = lex.lex()
