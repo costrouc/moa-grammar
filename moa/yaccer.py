@@ -3,23 +3,24 @@ import ply.yacc as yacc
 from .lexer import tokens
 from .primitives import NDArray
 
-def p_number(p):
-    '''number : INTEGER
-              | FLOAT
+def p_main(p):
+    '''main : vector
     '''
     p[0] = p[1]
 
-def p_vector_begin(p):
-    'partial_vector : LANGLEBRACKET'
-    p[0] = list()
+def p_number_list(p):
+    '''number_list : number_list INTEGER
+                   | number_list FLOAT
+                   |
+    '''
+    if len(p) == 3:
+        p[0] = p[1] + [p[2]]
+    else:
+        p[0] = list()
 
-def p_vector_middle(p):
-    'partial_vector : partial_vector number'
-    p[0] = p[1].append(p[2])
-
-def p_vector_end(p):
-    'vector : partial_vector RANGLEBRACKET'
-    p[0] = NDArray(shape=(len(p[1]),), data=p[1])
+def p_vector(p):
+    'vector : LANGLEBRACKET number_list RANGLEBRACKET'
+    p[0] = NDArray(shape=(len(p[2]),), data=p[2])
 
 # Error rule for syntax errors
 def p_error(p):
