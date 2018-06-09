@@ -6,5 +6,5 @@ test:
   stage: test
   script:
 # why bother with a setup.py for now
-    - pip install pytest ply
-    - pytest
+    - pip install ply pytest pytest-cov
+    - pytest --cov=moa
