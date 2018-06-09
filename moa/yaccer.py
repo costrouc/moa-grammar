@@ -22,6 +22,11 @@ def p_vector(p):
     'vector : LANGLEBRACKET number_list RANGLEBRACKET'
     p[0] = NDArray(shape=(len(p[2]),), data=p[2])
 
+# def p_binary_opperation(p):
+#     """binary_opperation : expression PLUS expression
+
+#     """
+
 # Error rule for syntax errors
 def p_error(p):
     raise ValueError("Syntax error in input!")
