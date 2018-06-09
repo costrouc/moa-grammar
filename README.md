@@ -11,6 +11,9 @@ quickly.
 
 Work:
  - [ ] compiler will be rewritten in Python
+   - [X] lexer of tokens
+   - [ ] yacc of expressions
+   - [ ] reduce ast with psi compiler rules
  - [ ] visualize the resulting AST for different problems
  - [ ] compute number of flops required for calculation and predict performance
  - [ ] write FFT, Matrix Multiply, and chained operations
