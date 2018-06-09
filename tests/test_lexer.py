@@ -1,6 +1,6 @@
 import pytest
 
-from moa.lexer import lexer
+from moa import lexer
 
 
 @pytest.mark.parametrize("expresion,result", [
@@ -44,3 +44,23 @@ def test_invalid_single_token(expresion, error):
                 break
             tokens.append(token.type)
     assert error in str(excinfo.value)
+
+
+@pytest.mark.parametrize("expresion,result", [
+    ("< 1 2 3>", ['LANGLEBRACKET', 'INTEGER', 'INTEGER', 'INTEGER', 'RANGLEBRACKET']),
+    ("<2> drop Xi", ['LANGLEBRACKET', 'INTEGER', 'RANGLEBRACKET', 'DROP', 'IDENTIFIER']),
+    ("main()", ['IDENTIFIER', 'LPAREN', 'RPAREN']),
+    ("AMY^3", ['IDENTIFIER', 'CARROT', 'INTEGER']),
+    ('AMts =<2  >   ', ['IDENTIFIER', 'EQUAL', 'LANGLEBRACKET', 'INTEGER', 'RANGLEBRACKET']),
+    ('  <    1 8 >;', ['LANGLEBRACKET', 'INTEGER', 'INTEGER', 'RANGLEBRACKET', 'ENDSTATEMENT']),
+    ('Y cat   omega < 1 1>', ['IDENTIFIER', 'CAT', 'OMEGA', 'LANGLEBRACKET', 'INTEGER', 'INTEGER', 'RANGLEBRACKET'])
+])
+def test_valid_multiple_token(expresion, result):
+    lexer.input(expresion)
+    tokens = []
+    while True:
+        token = lexer.token()
+        if not token:
+            break
+        tokens.append(token.type)
+    assert tokens == result

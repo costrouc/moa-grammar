@@ -102,3 +102,8 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+
+# ignored ply files
+parser.out
+parsetab.py
