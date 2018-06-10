@@ -24,7 +24,6 @@ def p_number_list(p):
     else:
         p[0] = list()
 
-
 def p_vector(p):
     'vector : LANGLEBRACKET number_list RANGLEBRACKET'
     p[0] = primitives.NDArray(shape=(len(p[2]),), data=p[2])
@@ -38,6 +37,11 @@ def p_array(p):
         shape=tuple(p[5].data), data=None,
         constant=False, identifier=p[2])
 
+# def p_array_list(p):
+#     '''array_list : array_list COMMA array
+#                   | array
+#     '''
+#     pass
 
 def p_constant_array(p):
     '''constant_array : CONST ARRAY IDENTIFIER CARROT INTEGER vector'''
@@ -54,23 +58,6 @@ def p_undefined_array(p):
         shape=None, data=None,
         constant=False, identifier=p[1])
 
-
-def p_binary_operation(p):
-    """binary_operation : term PLUS   term
-                        | term MINUS  term
-                        | term TIMES  term
-                        | term DIVIDE term
-                        | term PSI    term
-                        | term TAKE   term
-                        | term DROP   term
-                        | term CAT    term
-                        | term PDROP  term
-                        | term PTAKE  term
-                        | term OMEGA  term
-    """
-    p[0] = primitives.BinaryOperation(operator=p[2].upper(), left=p[1], right=p[3])
-
-
 def p_unary_operation(p):
     """unary_operation : IOTA       term
                        | DIM        term
@@ -84,12 +71,53 @@ def p_unary_operation(p):
     """
     p[0] = primitives.UnaryOperation(operator=p[1].upper(), right=p[2])
 
+def p_binary_operation(p):
+    """binary_operation : term EQUAL  term
+                        | term PLUS   term
+                        | term MINUS  term
+                        | term TIMES  term
+                        | term DIVIDE term
+                        | term PSI    term
+                        | term TAKE   term
+                        | term DROP   term
+                        | term CAT    term
+                        | term PDROP  term
+                        | term PTAKE  term
+                        | term OMEGA  term
+    """
+    p[0] = primitives.BinaryOperation(operator=p[2].upper(), left=p[1], right=p[3])
 
 def p_term(p):
-    """term : reference_array
+    """term : LPAREN binary_operation RPAREN
+            | LPAREN unary_operation  RPAREN
+            | LPAREN reference_array  RPAREN
+            | binary_operation
+            | unary_operation
+            | reference_array
             | vector
     """
-    p[0] = p[1]
+    if len(p) == 2:
+        p[0] = p[1]
+    else:
+        p[0] = p[2]
+
+# def p_function(p):
+#     """function : IDENTIFIER LPAREN array_list RPAREN RBRACKET statement_list LBRACKET
+
+#     """
+#     pass
+
+# def p_statement(p):
+#     """statement : term ENDSTATEMENT
+#                  | term EQUAL term ENDSTATEMENT
+#     """
+#     pass
+
+# def p_statement_list(p):
+#     """statement_list
+
+#     """
+#     pass
 
 # Error rule for syntax errors
 def p_error(p):

@@ -21,7 +21,37 @@ def test_parse_arrays(expression, result):
         operator='PSI',
         left=NDArray(shape=None, data=None, constant=False, identifier='j'),
         right=NDArray(shape=None, data=None, constant=False, identifier='x'))),
+    ("A omega <1 2>", BinaryOperation(
+        operator='OMEGA',
+        left=NDArray(shape=None, data=None, constant=False, identifier='A'),
+        right=NDArray(shape=(2,), data=[1, 2], constant=False, identifier=None))),
+    ("A omega B cat C", BinaryOperation(
+        operator='OMEGA',
+        left=NDArray(shape=None, data=None, constant=False, identifier='A'),
+        right=BinaryOperation(
+            operator='CAT',
+            left=NDArray(shape=None, data=None, constant=False, identifier='B'),
+            right=NDArray(shape=None, data=None, constant=False, identifier='C')
+        ))),
+    ("(A omega B) cat C", BinaryOperation(
+        operator='CAT',
+        left=BinaryOperation(
+            operator='OMEGA',
+            left=NDArray(shape=None, data=None, constant=False, identifier='A'),
+            right=NDArray(shape=None, data=None, constant=False, identifier='B')),
+        right=NDArray(shape=None, data=None, constant=False, identifier='C'))),
+    ("dim A cat B", UnaryOperation( # binary gets preference over unary
+        operator='DIM',
+        right=BinaryOperation(
+            operator='CAT',
+            left=NDArray(shape=None, data=None, constant=False, identifier='A'),
+            right=NDArray(shape=None, data=None, constant=False, identifier='B')))),
+    ("dim (A cat B)", UnaryOperation(
+        operator='DIM',
+        right=BinaryOperation(
+            operator='CAT',
+            left=NDArray(shape=None, data=None, constant=False, identifier='A'),
+            right=NDArray(shape=None, data=None, constant=False, identifier='B')))),
 ])
 def test_parse_operators(expression, result):
-    print('asdf', parser.parse(expression))
     assert parser.parse(expression) == result

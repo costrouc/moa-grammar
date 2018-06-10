@@ -56,7 +56,7 @@ class BinaryOperation:
                 self.right == other.right)
 
     def __repr__(self):
-        return f'{self.left} {self.operator} {self.right}'
+        return f'({self.left}) {self.operator} ({self.right})'
 
     def __str__(self):
         return self.__repr__()
