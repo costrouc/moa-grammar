@@ -60,3 +60,21 @@ class BinaryOperation:
 
     def __str__(self):
         return self.__repr__()
+
+
+class Function:
+    def __init__(self, arguments, statements, identifier):
+        self.arguments = arguments
+        self.statements = statements
+        self.identifier = identifier
+
+    def __eq__(self, other):
+        return (self.arguments == other.arguments and \
+                self.statements == other.statements and \
+                self.identifier == other.identifier)
+
+    def __repr__(self):
+        return f'f({self.arguments}){{ {self.statements} }}'
+
+    def __str__(self):
+        return self.__repr__()

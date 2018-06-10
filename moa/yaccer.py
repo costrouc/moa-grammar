@@ -5,12 +5,7 @@ from . import primitives
 
 
 def p_main(p):
-    '''main : vector
-            | array
-            | constant_array
-            | binary_operation
-            | unary_operation
-    '''
+    '''main : function'''
     p[0] = p[1]
 
 
@@ -23,6 +18,7 @@ def p_number_list(p):
         p[0] = p[1] + [p[2]]
     else:
         p[0] = list()
+
 
 def p_vector(p):
     'vector : LANGLEBRACKET number_list RANGLEBRACKET'
@@ -37,11 +33,19 @@ def p_array(p):
         shape=tuple(p[5].data), data=None,
         constant=False, identifier=p[2])
 
-# def p_array_list(p):
-#     '''array_list : array_list COMMA array
-#                   | array
-#     '''
-#     pass
+
+def p_array_list(p):
+    '''array_list : array_list COMMA array
+                  | LPAREN array
+                  | LPAREN
+    '''
+    if len(p) == 4:
+        p[0] = p[1] + [p[3]]
+    elif len(p) == 3:
+        p[0] = [p[2]]
+    else:
+        p[0] = []
+
 
 def p_constant_array(p):
     '''constant_array : CONST ARRAY IDENTIFIER CARROT INTEGER vector'''
@@ -58,6 +62,7 @@ def p_undefined_array(p):
         shape=None, data=None,
         constant=False, identifier=p[1])
 
+
 def p_unary_operation(p):
     """unary_operation : IOTA       term
                        | DIM        term
@@ -70,6 +75,7 @@ def p_unary_operation(p):
                        | DIVIDERED  term
     """
     p[0] = primitives.UnaryOperation(operator=p[1].upper(), right=p[2])
+
 
 def p_binary_operation(p):
     """binary_operation : term EQUAL  term
@@ -87,6 +93,7 @@ def p_binary_operation(p):
     """
     p[0] = primitives.BinaryOperation(operator=p[2].upper(), left=p[1], right=p[3])
 
+
 def p_term(p):
     """term : LPAREN binary_operation RPAREN
             | LPAREN unary_operation  RPAREN
@@ -101,26 +108,33 @@ def p_term(p):
     else:
         p[0] = p[2]
 
-# def p_function(p):
-#     """function : IDENTIFIER LPAREN array_list RPAREN RBRACKET statement_list LBRACKET
 
-#     """
-#     pass
+def p_function(p):
+    """function : IDENTIFIER array_list RPAREN LBRACKET statement_list RBRACKET
 
-# def p_statement(p):
-#     """statement : term ENDSTATEMENT
-#                  | term EQUAL term ENDSTATEMENT
-#     """
-#     pass
+    """
+    p[0] = primitives.Function(arguments=p[2], statements=p[5], identifier=p[1])
 
-# def p_statement_list(p):
-#     """statement_list
 
-#     """
-#     pass
+def p_statement_list(p):
+    """statement_list : statement_list term ENDSTATEMENT
+                      | statement_list constant_array EQUAL vector ENDSTATEMENT
+                      |
+    """
+    if len(p) == 4:
+        p[0] = p[1] + [p[2]]
+    elif len(p) == 6:
+        p[0] = p[1] + [primitives.NDArray(
+            shape=p[2].shape, data=p[4].data,
+            constant=True, identifier=p[2].identifier)]
+    else:
+        p[0] = list()
+
 
 # Error rule for syntax errors
 def p_error(p):
     raise ValueError("Syntax error in input!")
 
-parser = yacc.yacc()
+
+def build_parser(start=None):
+    return yacc.yacc(start=start)
