@@ -27,8 +27,31 @@ from moa.yaccer import build_parser
             )
         ])),
 ])
-def test_parse_vector(filename, result):
+def test_parse_filename_resulting_ast(filename, result):
     with open(filename) as f:
         contents = f.read()
     parser = build_parser()
     assert parser.parse(contents) == result
+
+
+@pytest.mark.parametrize("filename", [
+    "test_files/moa/example0.moa",
+    "test_files/moa/example1.moa",
+    "test_files/moa/example2.moa",
+    # "test_files/moa/example3.moa", # omega not handled properly
+    "test_files/moa/example4.moa",
+    # "test_files/moa/example5.moa", # int in file
+    # "test_files/moa/example6.moa", # int in file
+    # "test_files/moa/example7.moa", # omega not handled properly
+    "test_files/moa/example8.moa",
+    "test_files/moa/example9.moa",
+    # "test_files/moa/lu.moa", # int, for loop in file
+    # "test_files/moa/mm.moa", # int, brackets in file and omega not handled properly
+    # "test_files/moa/ops.moa", # omega not handled properly
+    "test_files/moa/tmp.moa"
+])
+def test_parse_filenames(filename):
+    with open(filename) as f:
+        contents = f.read()
+    parser = build_parser()
+    parser.parse(contents) # not checking ast for now
