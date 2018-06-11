@@ -31,4 +31,4 @@ def test_parse_vector(filename, result):
     with open(filename) as f:
         contents = f.read()
     parser = build_parser()
-    #assert parser.parse(contents) == result
+    assert parser.parse(contents) == result

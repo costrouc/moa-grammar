@@ -40,13 +40,12 @@ def test_parse_arrays(expression, result):
         left=NDArray(shape=None, data=None, constant=False, identifier='A'),
         right=NDArray(shape=(2,), data=[1, 2], constant=False, identifier=None))),
     ("A omega B cat C", BinaryOperation(
-        operator='OMEGA',
-        left=NDArray(shape=None, data=None, constant=False, identifier='A'),
-        right=BinaryOperation(
-            operator='CAT',
-            left=NDArray(shape=None, data=None, constant=False, identifier='B'),
-            right=NDArray(shape=None, data=None, constant=False, identifier='C')
-        ))),
+        operator='CAT',
+        left=BinaryOperation(
+            operator='OMEGA',
+            left=NDArray(shape=None, data=None, constant=False, identifier='A'),
+            right=NDArray(shape=None, data=None, constant=False, identifier='B')),
+        right=NDArray(shape=None, data=None, constant=False, identifier='C'))),
     ("(A omega B) cat C", BinaryOperation(
         operator='CAT',
         left=BinaryOperation(
@@ -54,12 +53,12 @@ def test_parse_arrays(expression, result):
             left=NDArray(shape=None, data=None, constant=False, identifier='A'),
             right=NDArray(shape=None, data=None, constant=False, identifier='B')),
         right=NDArray(shape=None, data=None, constant=False, identifier='C'))),
-    ("dim A cat B", UnaryOperation( # binary gets preference over unary
-        operator='DIM',
-        right=BinaryOperation(
-            operator='CAT',
-            left=NDArray(shape=None, data=None, constant=False, identifier='A'),
-            right=NDArray(shape=None, data=None, constant=False, identifier='B')))),
+    ("dim A cat B", BinaryOperation(
+        operator='CAT',
+        left=UnaryOperation(
+            operator='DIM',
+            right=NDArray(shape=None, data=None, constant=False, identifier='A')),
+        right=NDArray(shape=None, data=None, constant=False, identifier='B'))),
     ("dim (A cat B)", UnaryOperation(
         operator='DIM',
         right=BinaryOperation(

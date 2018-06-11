@@ -3,6 +3,15 @@ import ply.yacc as yacc
 from .lexer import tokens
 from . import primitives
 
+# binary operators need precedence
+precedence = (
+    ('left', 'PLUS', 'MINUS'),
+    ('left', 'TIMES', 'DIVIDE'),
+    ('left', 'PSI', 'TAKE', 'DROP', 'CAT', 'PDROP', 'PTAKE', 'OMEGA'),
+    ('right', 'IOTA', 'DIM', 'TAU', 'SHP', 'RAV', 'PLUSRED', 'MINUSRED', 'TIMESRED', 'DIVIDERED'),
+    ('right', 'EQUAL'),
+)
+
 
 def p_main(p):
     '''main : function'''
@@ -12,7 +21,7 @@ def p_main(p):
 def p_number_list(p):
     '''number_list : number_list INTEGER
                    | number_list FLOAT
-                   |
+                   | empty
     '''
     if len(p) == 3:
         p[0] = p[1] + [p[2]]
@@ -21,7 +30,7 @@ def p_number_list(p):
 
 
 def p_vector(p):
-    'vector : LANGLEBRACKET number_list RANGLEBRACKET'
+    '''vector : LANGLEBRACKET number_list RANGLEBRACKET'''
     p[0] = primitives.NDArray(shape=(len(p[2]),), data=p[2])
 
 
@@ -78,8 +87,7 @@ def p_unary_operation(p):
 
 
 def p_binary_operation(p):
-    """binary_operation : term EQUAL  term
-                        | term PLUS   term
+    """binary_operation : term PLUS   term
                         | term MINUS  term
                         | term TIMES  term
                         | term DIVIDE term
@@ -116,19 +124,36 @@ def p_function(p):
     p[0] = primitives.Function(arguments=p[2], statements=p[5], identifier=p[1])
 
 
-def p_statement_list(p):
-    """statement_list : statement_list term ENDSTATEMENT
-                      | statement_list constant_array EQUAL vector ENDSTATEMENT
-                      |
-    """
-    if len(p) == 4:
-        p[0] = p[1] + [p[2]]
-    elif len(p) == 6:
-        p[0] = p[1] + [primitives.NDArray(
+def p_statement_list_identifier(p):
+    """statement_list : statement_list IDENTIFIER EQUAL term ENDSTATEMENT"""
+    p[0] = p[1] + [primitives.BinaryOperation(
+        operator='EQUAL',
+        left=primitives.NDArray(
+            shape=None, data=None,
+            constant=False, identifier=p[2]),
+        right=p[4])]
+
+
+def p_statement_list_constant_array(p):
+    """statement_list : statement_list constant_array EQUAL vector ENDSTATEMENT"""
+    p[0] = p[1] + [primitives.NDArray(
             shape=p[2].shape, data=p[4].data,
             constant=True, identifier=p[2].identifier)]
-    else:
-        p[0] = list()
+
+
+def p_statement_list_array(p):
+    """statement_list : statement_list array ENDSTATEMENT"""
+    p[0] = p[1] + [p[2]]
+
+
+def p_statement_list_emptry(p):
+    """statement_list : empty"""
+    p[0] = []
+
+
+def p_empty(p):
+    'empty :'
+    pass
 
 
 # Error rule for syntax errors
