@@ -58,32 +58,45 @@ t_MINUSRED  = r'\-red'
 t_TIMESRED  = r'\*red'
 t_DIVIDERED = r'/red'
 
+
 ## symbols
 def t_FLOAT(t):
     r'[+-]?[0-9]*\.[0-9]+' # very simple float regex
     t.value = float(t.value)
     return t
 
+
 def t_INTEGER(t):
     r'[+-]?\d+'
     t.value = int(t.value)
     return t
+
 
 def t_IDENTIFIER(t):
     r'[a-zA-Z][a-zA-Z0-9_]*'
     t.type = reserved.get(t.value, 'IDENTIFIER')
     return t
 
+
+def t_COMMENT(t):
+    r'\#.*'
+    pass
+    # No return value. Token discarded
+
+
 # Define a rule so we can track line numbers
 def t_newline(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
 
+
 # A string containing ignored characters (spaces and tabs)
 t_ignore = ' \t'
+
 
 # Error handling rule
 def t_error(t):
     raise ValueError(f"Illegal character '{t.value[0]}' no valid token can be formed from '{t.value}' on line {t.lexer.lineno}")
+
 
 lexer = lex.lex()
