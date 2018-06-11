@@ -97,10 +97,21 @@ def p_binary_operation(p):
                         | term CAT    term
                         | term PDROP  term
                         | term PTAKE  term
-                        | term OMEGA  term
     """
     p[0] = primitives.BinaryOperation(operator=p[2].upper(), left=p[1], right=p[3])
 
+
+# def p_omega_unary_operator(p):
+#     """omega_operator : CAT
+
+#     """
+#     pass # add to unary operations
+
+# def p_omega_binary_operation(p):
+#     """omega_binary_operation : PLUSRED
+
+#     """
+#     pass # add to binary operations
 
 def p_term(p):
     """term : LPAREN binary_operation RPAREN
