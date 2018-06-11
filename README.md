@@ -1,3 +1,19 @@
+**All issues and contributions should be done on
+[Gitlab](https://gitlab.com/costrouc/moa-grammar). Github is used only as a
+mirror for visibility**
+
+<table>
+<tr>
+  <td>Build Status</td>
+  <td> <a href="https://gitlab.com/costrouc/moa-grammar/pipelines"> <img
+src="https://gitlab.com/costrouc/moa-grammar/badges/master/pipeline.svg"
+alt="gitlab pipeline status" /> </a> </td>
+</tr>
+<tr>
+  <td>Coverage</td> <td><img src="https://gitlab.com/costrouc/moa-grammar/badges/master/coverage.svg" alt="coverage" /></td>
+</tr>
+</table>
+
 # Mathematics of Arrays (MOA)
 
 The purpose of this project is to help in understanding the MOA
@@ -26,3 +42,14 @@ Notes:
       pure MOA language?
     - [2] `A[A > 5]` changes the shape of an array in a dynamic
       manner. How to capture this.
+
+# Contributing
+
+All contributions, bug reports, bug fixes, documentation improvements,
+enhancements and ideas are welcome. These should be submitted at the
+[Gitlab repository](https://gitlab.com/costrouc/moa-grammar). Github
+is only used for visibility.
+
+# License
+
+MIT
