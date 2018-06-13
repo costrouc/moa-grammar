@@ -30,11 +30,16 @@ Points Gleaned from Reading:
   - used by google pixel phones and many other companies (adobe, mit, etc.)
   - repository https://github.com/halide/Halide and released by MIT 2012
   - used for dense arrays computations (like image processing)
+  - uses polyhedral program optimization to optimize computation https://web.cs.ucla.edu/~pouchet/doc/guest-lect-gatech-poly.pdf
+  - large pipelines are not recommended https://github.com/halide/Halide/issues/2800
 
 Questions:
  - how does this address sparse computations?
  - does this do anything to remove temporaries automatically from a caluculation?
  - are there any mathematical motivations for operations? guarantees of optimality?
+ - from looking at linear algebra routines it looks like a lot of hard
+   rolled code is needed.
 
-
+Examples:
+ - matrix multiply https://github.com/halide/Halide/tree/master/apps/cuda_mat_mul
 
