@@ -34,6 +34,13 @@ problems in computational physics: the Fast Fourier
 Transform](https://doi.org/10.1016/j.cpc.2005.02.004) is much heavier
 on the math.
 
+And much later paper is **the** paper to read also covers psi calculus
+very well. [Conformal Computing: Algebraically connecting the hardware/software boundary using a uniform approach to high-performance computation for software and hardware applications](https://arxiv.org/abs/0803.2386).
+
+## [Conformal Computing: Algebraically connecting the hardware/software boundary using a uniform approach to high-performance computation for software and hardware applications](https://arxiv.org/abs/0803.2386)
+
+Great introduction material. Supperior to previous FFT paper for understanding.
+
 ## [Seminar](https://www.albany.edu/CC05/)
 
 Introduction talk by Leonore gives highlights.
