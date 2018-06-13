@@ -8,3 +8,5 @@ design is chosen.
 This project is already on great footing due to a formal specification
 of the MOA grammar which allows us to have most of the design
 decisions already made.
+
+ - sparse arrays have been worked out in MOA [see issue 1](https://github.com/saulshanabrook/moa/issues/1#issuecomment-396812087)
