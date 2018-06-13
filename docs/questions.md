@@ -1,14 +1,14 @@
 # Questions
 
  - several of the example files including `test_files/moa/lu.moa` have
-   types not specified in the moa language `int` and for loops how
+   types not specified in the MOA language `int` and `for loops` how
    does this fit into the MOA language / compiler optimizations /
    reducibility?
  
  - matrix multiplication is an example of a problem that does not
-   really require coordination. However some problems like LU
-   factorication and Gram-Schmidt look in MOA? Does it require loops
-   how is that represented?
+   really require sequential execution. However some problems do like
+   LU factorication and Gram-Schmidt. How does this look in MOA? Does
+   it require for loops how is that represented?
    
  - numpy has a convenient syntax for selecting a subset of element
    based on a condition for example `A[A > 5] * 6` returns a new array
@@ -35,3 +35,25 @@
    intermediate results (any others)? Does this property of MOA
    address the fact that many naive techniques for working with sparse
    arrays can lead to dense arrays. Is this a way around this problem?
+   
+ - In a perfect world a person would be able to write a complex
+   computation that requires significant optimization. For example
+   `||A multiply B multiply C - D||_F `. Do you believe MOA will be
+   able to compile this expression down into effecient code from such
+   a high level description?
+   
+ - In a paper you mention an implementation of matrix multiply `A x B
+   x C` but performance was not mentioned. Is there a reason for this?
+
+ - (unfair question) This is a very hard problem in numerical
+   computing. Many people have tried this with heuristic based
+   optimization and everyone is working towards this problem. I think
+   its fair to say that everyone in the field is sceptical that the
+   process can be "automated". Why has MOA not been adopted heavily in
+   the field? Also what are the downsides of this technique that has
+   prevented addoption? Reading the work this method sounds "too good
+   to be true"
+
+ - Hailide targets image processing. Many of these transformations
+   require weighting local arrays. For instance blur. How would this
+   look in MOA?
