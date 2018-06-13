@@ -66,6 +66,35 @@ indicies. Could be a great paper but I had a hard time following and
 seeing the implications of psi calculus. Established a minimum bound
 on the number of temporaries.
 
+Quote (page. 2) 
+
+> Efficiency is very important in scientific computing, and
+> consequently scien- tific software must be highly optimized. Ideally,
+> scientific programmers should be able to program using monolithic
+> array operations, and have their pro- grams automatically optimized to
+> produce very efficient object code. Currently, the dominant approach
+> to compiler optimization of array languages, Fortran 90, HPF, etc., is
+> to first scalarize the monolithic code, and then to do trans-
+> formational optimizations on the resulting scalarized loops. However,
+> much global information is obfuscated, or even lost, during the
+> scalarization pro- cess. In contrast, the results presented here (and
+> in Chamberlain et al. [1996], Humphrey et al. [1997], Hwang et
+> al. [1996, 2001], Lewis et al. [1998], Roth [2000], Roth and Kennedy
+> [1996], and Veldhuizen and Gannon [1998]) illustrate how a programming
+> style using monolithic array operations, and program anal- ysis of
+> such programs prior to scalarization, can be used to perform
+> high-level transformations.
+
+Quote (pg. 27) listing similar software.
+
+> Such nonmaterialization in expressions is done in APL [Abrams 1970;
+> Budd 1984; Guibas and Wyatt 1978; Hassitt and Lyon 1972], Fortran
+> 90, HPF, ZPL [Lin and Snyder 1993], POOMA [Humphrey et al. 1997],
+> C++ templates [Veldhuizen 1995a, 1995b], Blitz++ [Veldhuizen 1998],
+> the Matrix Template Library (MTL) [Siek and Lumsdaine 1998], active
+> libraries [Veldhuizen and Gannon 1998], etc.
+
+
 ## [Generating indexing functions of regularly sparse arrays for array compilers](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.53.7877&rep=rep1&type=pdf)
 
 Talks about how the indexing function can be generalized for sparse arrays.
